@@ -29,10 +29,18 @@ public class TextAnalyzer {
     private List<String> agricultureKeywords = Arrays.asList("kisan", "farmer", "crops",
             "sugarcane", "plough", "drought", "soil", "fertilizer");
 
+    private List<String> roadKeywords = Arrays.asList("traffic", "holes", "pit");
+    private List<String> industryKeywords = Arrays.asList("industry", "pollution", "factory",
+            "factories");
+
+    private List<String> environmentKeywords = Arrays.asList("pollution", "health");
+
     public TextAnalyzer() {
         map = new HashMap<>();
         map.put("Finance", financeKeywords);
         map.put("Agriculture", agricultureKeywords);
+        map.put("Road", roadKeywords);
+        map.put("Industry", industryKeywords);
     }
 
     /**

@@ -38,6 +38,10 @@ public class HomeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //TODO:REMOVE
+        startActivity(new Intent(this, ExpertsSelectionActivity.class));
+
+
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
