@@ -1,6 +1,8 @@
 package hackerrepublic.sarkarsalahkar;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +40,14 @@ public class HomeActivity extends AppCompatActivity {
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, NewPostActivity.class));
+            }
+        });
+
         mRecyclerView = (RecyclerView) findViewById(R.id.posts_recycler_view);
         mMyRecyclerAdapter = new MyRecyclerAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -55,22 +65,18 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
@@ -129,7 +135,6 @@ public class HomeActivity extends AppCompatActivity {
 
             void bind(int position) {
                 Post post = posts.get(position);
-
                 authorView.setText(post.author);
                 postTitleView.setText(post.title);
                 postPreview.setText(post.description);
@@ -139,7 +144,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
-
 }
 
 
