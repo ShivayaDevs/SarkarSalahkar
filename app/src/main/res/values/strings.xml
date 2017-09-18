@@ -2,4 +2,47 @@
     <string name="app_name">Sarkar Salahkar</string>
     <string name="title_activity_home">Sarkar Salahkar</string>
     <string name="title_new_task_activity">Add new idea</string>
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="got_it">Got it!</string>
+
+    <string name="start_screen1_title">Screen 1</string>
+    <string name="start_screen1_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+
+    <string name="start_screen2_title">Screen 2</string>
+    <string name="start_screen2_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+
+    <string name="start_screen3_title">Screen 3</string>
+    <string name="start_screen3_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+
+    <string name="start_screen4_title">Screen 4</string>
+    <string name="start_screen4_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+
+    <string name="start_screen5_title">Screen 5</string>
+    <string name="start_screen5_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+
+    <string name="start_screen6_title">Screen 6</string>
+    <string name="start_screen6_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+
+    <string-array name="start_screen_titles">
+        <item>@string/start_screen1_title</item>
+        <item>@string/start_screen2_title</item>
+        <item>@string/start_screen3_title</item>
+        <item>@string/start_screen4_title</item>
+        <item>@string/start_screen5_title</item>
+        <item>@string/start_screen6_title</item>
+    </string-array>
+
+    <string-array name="start_screen_descriptions">
+        <item>@string/start_screen1_desc</item>
+        <item>@string/start_screen2_desc</item>
+        <item>@string/start_screen3_desc</item>
+        <item>@string/start_screen4_desc</item>
+        <item>@string/start_screen5_desc</item>
+        <item>@string/start_screen6_desc</item>
+    </string-array>
+
+    <string name="onboard_screen1_title">Title Here</string>
+    <string name="onboard_screen1_description">Lorem ipsum dorem silet bycum intia qwe lorem.</string>
 </resources>

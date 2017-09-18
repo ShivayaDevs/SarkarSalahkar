@@ -11,11 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".HomeActivity"
-            android:exported="true"
-            android:label="@string/title_activity_home"
+        <activity android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,13 +20,19 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".NewPostActivity"
             android:label="@string/title_new_task_activity" />
         <activity
             android:name=".ExpertsSelectionActivity"
             android:label="Escalate To" />
-        <activity android:name=".EscalationSuccessActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".EscalationSuccessActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
