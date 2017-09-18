@@ -1,6 +1,7 @@
 package hackerrepublic.sarkarsalahkar;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -63,9 +64,20 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
         String postId = intent.getStringExtra("POST_KEY");
         tags = intent.getStringArrayListExtra("POST_TAGS");
 
-        if(tags == null){
+        // This is here for testing purposes.
+        if (tags == null) {
             tags = new ArrayList<>();
+            tags.add("Finance");
         }
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.progressLoader).setVisibility(View.GONE);
+                findViewById(R.id.mainLayout).setVisibility(View.VISIBLE);
+            }
+        }, 1500);
 
         myRecyclerAdapter = new MyRecyclerAdapter();
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewExpert);
@@ -106,8 +118,22 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.button_escalate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ExpertsSelectionActivity.this, EscalationSuccessActivity
+                        .class));
+            }
+        });
+
     }
 
+    /**
+     * Generates and assigns a score to the retrieved mapping.
+     *
+     * @param user the expert user.
+     * @return score that is assigned.
+     */
     private int getScore(User user) {
         int score = 0;
         for (Map.Entry<String, Integer> e : user.rating.entrySet()) {
@@ -141,7 +167,7 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
 
         public void addItem(User expert, int score) {
             list.add(expert);
-            Log.d(TAG,"addItem " + expert.name + " score:" + score);
+            Log.d(TAG, "addItem " + expert.name + " score:" + score);
             scoreMap.put(expert, score);
             Collections.sort(list, new Comparator<User>() {
                 @Override
@@ -149,8 +175,9 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
                     return scoreMap.get(u2) - scoreMap.get(u1);
                 }
             });
-            //TODO: check
-//            list = (ArrayList<User>) list.subList(0, 7);
+            if (list.size() > 6) {
+                list = (ArrayList<User>) list.subList(0, 6);
+            }
             notifyDataSetChanged();
         }
 
@@ -181,6 +208,11 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
                     displayString += entry.getKey() + ", ";
                 }
                 textViewTags.setText(displayString);
+                if (position % 2 == 0) {
+                    dpView.setImageResource(R.drawable.ic_expert);
+                } else {
+                    dpView.setImageResource(R.drawable.ic_expert2);
+                }
             }
         }
     }

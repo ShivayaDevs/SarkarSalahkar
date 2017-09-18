@@ -29,8 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textSize="14sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             app:layout_constraintStart_toEndOf="@+id/author_image_view"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Rohan Raj" />
