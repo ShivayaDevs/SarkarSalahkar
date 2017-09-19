@@ -9,7 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:padding="4dp"
+            android:text="Select some(max 4) people to escalate your idea." />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewExpert"

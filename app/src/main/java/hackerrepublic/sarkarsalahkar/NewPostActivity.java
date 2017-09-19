@@ -39,6 +39,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
 
+        getSupportActionBar().setElevation(0);
+
         titleInput = (EditText) findViewById(R.id.editText_title);
         ideaInput = (EditText) findViewById(R.id.editText_idea);
         imageButton = (ImageButton) findViewById(R.id.imageButton_image);
@@ -58,14 +60,16 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             galleryIntent.setType("image/*");
             startActivityForResult(galleryIntent, 101);
         } else if (view.getId() == R.id.buttonSave) {
-            if (TextUtils.isEmpty(ideaInput.getText()) || TextUtils.isEmpty(titleInput.getText())
-                    || imageUrl == null) {
-                Toast.makeText(this, "Please fill all fields first!", Toast.LENGTH_LONG).show();
-            }
-            String key = savePost();
+//            if (TextUtils.isEmpty(ideaInput.getText()) || TextUtils.isEmpty(titleInput.getText())
+//                    || imageUrl == null) {
+//                Toast.makeText(this, "Please fill all fields first!", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//            String key = savePost();
+            String key = "p";//savePost();
             ArrayList<String> tags = new TextAnalyzer().getTags(ideaInput.getText().toString() +
                     titleInput.getText().toString());
-            Intent expertsSelectionIntent = new Intent(this, ExpertsSelectionActivity.class);
+            Intent expertsSelectionIntent = new Intent(this, AuthoritySelectionActivity.class);
             expertsSelectionIntent.putExtra("POST_KEY", key);
             expertsSelectionIntent.putExtra("POST_TAGS", tags);
             startActivity(expertsSelectionIntent);

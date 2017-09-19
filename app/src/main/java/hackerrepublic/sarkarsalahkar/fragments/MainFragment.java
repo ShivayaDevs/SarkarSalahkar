@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import hackerrepublic.sarkarsalahkar.IdeaDetailActivity;
 import hackerrepublic.sarkarsalahkar.NewPostActivity;
 import hackerrepublic.sarkarsalahkar.R;
 import hackerrepublic.sarkarsalahkar.models.Post;
@@ -60,7 +61,7 @@ public class MainFragment extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
                     Post post = dataSnapshot.getValue(Post.class);
-                    mMyRecyclerAdapter.addItem(post);
+                    mMyRecyclerAdapter.addItem(dataSnapshot.getKey(), post);
                 }
             }
 
@@ -86,9 +87,11 @@ public class MainFragment extends Fragment {
 
     private class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
         private ArrayList<Post> posts;
+        private ArrayList<String> keys;
 
         public MyRecyclerAdapter() {
             posts = new ArrayList<>();
+            keys = new ArrayList<>();
         }
 
         @Override
@@ -108,8 +111,9 @@ public class MainFragment extends Fragment {
             return posts.size();
         }
 
-        public void addItem(Post post) {
+        public void addItem(String key, Post post) {
             posts.add(post);
+            keys.add(key);
             notifyDataSetChanged();
         }
 
@@ -118,13 +122,15 @@ public class MainFragment extends Fragment {
             notifyDataSetChanged();
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder {
+        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView authorView;
             private TextView timeView;
             private TextView postTitleView;
             private TextView postPreview;
             private TextView numStarsView;
             private ImageView coverImageView;
+
+            private String key;
 
             MyViewHolder(View v) {
                 super(v);
@@ -134,6 +140,7 @@ public class MainFragment extends Fragment {
                 postPreview = v.findViewById(R.id.textView_postPreview);
                 numStarsView = v.findViewById(R.id.textView_numStars);
                 coverImageView = v.findViewById(R.id.imageView_cover);
+                v.setOnClickListener(this);
             }
 
             void bind(int position) {
@@ -144,6 +151,14 @@ public class MainFragment extends Fragment {
                 numStarsView.setText(post.numStars + " stars");
                 timeView.setText("1 hr ago");
                 Glide.with(getActivity()).load(post.imageUrl).into(coverImageView);
+                key = keys.get(position);
+            }
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), IdeaDetailActivity.class);
+                intent.putExtra("POST_KEY", key);
+                startActivity(intent);
             }
         }
     }

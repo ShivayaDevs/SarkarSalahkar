@@ -61,6 +61,7 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_experts_selection);
         Intent intent = this.getIntent();
 
+        getSupportActionBar().setElevation(0);
         String postId = intent.getStringExtra("POST_KEY");
         tags = intent.getStringArrayListExtra("POST_TAGS");
 
@@ -82,8 +83,8 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
         myRecyclerAdapter = new MyRecyclerAdapter();
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewExpert);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration
-                .VERTICAL));
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration
+//                .VERTICAL));
         mRecyclerView.setAdapter(myRecyclerAdapter);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();

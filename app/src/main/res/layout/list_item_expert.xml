@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    app:cardElevation="0dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,15 +19,16 @@
             android:layout_height="30dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-medium"
             android:text="James Gosling"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/dpView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <ImageView
             android:id="@+id/dpView"
-            android:layout_width="40dp"
+            android:layout_width="32dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
