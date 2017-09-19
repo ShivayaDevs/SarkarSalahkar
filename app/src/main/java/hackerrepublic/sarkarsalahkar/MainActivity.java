@@ -53,11 +53,14 @@ public class MainActivity extends AppCompatActivity {
         imageResources = new int[]{
                 R.drawable.ic_brainstorming_b,
                 R.drawable.ic_contract,
+                R.drawable.ic_rep_medal,
                 R.drawable.ic_escalate,
                 R.drawable.ic_promotion,
-                R.drawable.ic_master,
-                R.drawable.ic_package,
-//                R.drawable.ic_loss
+                R.drawable.ic_loss,
+//                R.drawable.runstreak_badge_365_on,
+                R.drawable.ic_discover_singles,
+//                R.drawable.ic_master,
+//                R.drawable.ic_package,
         };
         // adding bottom dots
         addBottomDots(0);

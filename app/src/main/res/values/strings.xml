@@ -7,23 +7,26 @@
     <string name="skip">SKIP</string>
     <string name="got_it">Got it!</string>
 
-    <string name="start_screen1_title">Screen 1</string>
-    <string name="start_screen1_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+    <string name="start_screen1_title">Think to improve</string>
+    <string name="start_screen1_desc">You think of an elegant solution to a common problem faced by citizens</string>
 
-    <string name="start_screen2_title">Screen 2</string>
-    <string name="start_screen2_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+    <string name="start_screen2_title">Write your idea</string>
+    <string name="start_screen2_desc">Type in your idea specifying complete details to help our algorithms find subject experts for your idea who will review your idea.</string>
 
-    <string name="start_screen3_title">Screen 3</string>
-    <string name="start_screen3_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+    <string name="start_screen3_title">Reputation</string>
+    <string name="start_screen3_desc">You maintain a topic wise reputation in this community. More the reputation, more you matter.</string>
 
-    <string name="start_screen4_title">Screen 4</string>
-    <string name="start_screen4_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+    <string name="start_screen4_title">Gain Reputation</string>
+    <string name="start_screen4_desc">If your idea gets escalated or you, being an expert, escalate someone else\'s idea further, you gain reputation.</string>
 
-    <string name="start_screen5_title">Screen 5</string>
-    <string name="start_screen5_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+    <string name="start_screen5_title">Get Promoted</string>
+    <string name="start_screen5_desc">As your reputation increases, you become a Level-1 expert. Remember, with great power, comes great responsibility.</string>
 
-    <string name="start_screen6_title">Screen 6</string>
-    <string name="start_screen6_desc">Lorem ipsum dorem silet Lorem ipsum dorem silet.</string>
+    <string name="start_screen6_title">Losing Reputation</string>
+    <string name="start_screen6_desc">If you write poor ideas continuously, or being an expert, if you escalate poor ideas, you\'ll lose reputation.</string>
+
+    <string name="start_screen7_title">India\'s Adviser</string>
+    <string name="start_screen7_desc">Our intelligent algorithms make sure your ideas don\'t get lost amongst millions of other ideas and reach the destination they deserve.</string>
 
     <string-array name="start_screen_titles">
         <item>@string/start_screen1_title</item>
@@ -32,6 +35,7 @@
         <item>@string/start_screen4_title</item>
         <item>@string/start_screen5_title</item>
         <item>@string/start_screen6_title</item>
+        <item>@string/start_screen7_title</item>
     </string-array>
 
     <string-array name="start_screen_descriptions">
@@ -41,6 +45,7 @@
         <item>@string/start_screen4_desc</item>
         <item>@string/start_screen5_desc</item>
         <item>@string/start_screen6_desc</item>
+        <item>@string/start_screen7_desc</item>
     </string-array>
 
     <string name="onboard_screen1_title">Title Here</string>

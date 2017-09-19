@@ -6,15 +6,32 @@
     android:layout_height="match_parent"
     android:background="@color/material_grey100"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="hackerrepublic.sarkarsalahkar.HomeActivity">
+    tools:context="hackerrepublic.sarkarsalahkar.HomeActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/posts_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/list_item_post" />
+        tools:listitem="@layout/list_item_post">
 
+    </android.support.v7.widget.RecyclerView>
 
+    <ProgressBar
+        android:id="@+id/main_screen_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/posts_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/posts_recycler_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
 
 
 </android.support.constraint.ConstraintLayout>

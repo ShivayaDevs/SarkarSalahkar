@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,6 +36,8 @@ public class MainFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter mMyRecyclerAdapter;
 
+    private ProgressBar progressBar;
+
     /**
      * Required constructor.
      */
@@ -55,6 +58,8 @@ public class MainFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mMyRecyclerAdapter);
 
+        progressBar = view.findViewById(R.id.main_screen_progress_bar);
+
         DatabaseReference postsRef = mFirebaseDatabase.getReference("posts");
         postsRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -62,6 +67,9 @@ public class MainFragment extends Fragment {
                 if (dataSnapshot.exists()) {
                     Post post = dataSnapshot.getValue(Post.class);
                     mMyRecyclerAdapter.addItem(dataSnapshot.getKey(), post);
+                    if (progressBar.getVisibility() == View.VISIBLE) {
+                        progressBar.setVisibility(View.GONE);
+                    }
                 }
             }
 
