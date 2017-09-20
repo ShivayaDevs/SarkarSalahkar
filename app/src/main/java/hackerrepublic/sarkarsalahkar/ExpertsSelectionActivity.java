@@ -71,14 +71,6 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
             tags.add("Finance");
         }
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                findViewById(R.id.progressLoader).setVisibility(View.GONE);
-                findViewById(R.id.mainLayout).setVisibility(View.VISIBLE);
-            }
-        }, 1500);
 
         myRecyclerAdapter = new MyRecyclerAdapter();
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewExpert);
@@ -94,6 +86,10 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
                     User user = dataSnapshot.getValue(User.class);
+                    if (findViewById(R.id.progressLoader).getVisibility() == View.VISIBLE) {
+                        findViewById(R.id.progressLoader).setVisibility(View.GONE);
+                        findViewById(R.id.mainLayout).setVisibility(View.VISIBLE);
+                    }
                     myRecyclerAdapter.addItem(user, getScore(user));
                 }
             }
@@ -207,6 +203,9 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
                 String displayString = "";
                 for (Map.Entry<String, Integer> entry : ratingMap.entrySet()) {
                     displayString += entry.getKey() + ", ";
+                }
+                if (displayString.length() >= 1) {
+                    displayString = displayString.substring(0, displayString.length() - 1);
                 }
                 textViewTags.setText(displayString);
                 if (position % 2 == 0) {

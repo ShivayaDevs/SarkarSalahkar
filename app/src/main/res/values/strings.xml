@@ -8,7 +8,7 @@
     <string name="got_it">Got it!</string>
 
     <string name="start_screen1_title">Think to improve</string>
-    <string name="start_screen1_desc">You think of an elegant solution to a common problem faced by citizens</string>
+    <string name="start_screen1_desc">You think of an elegant solution to a common problem faced by citizens.</string>
 
     <string name="start_screen2_title">Write your idea</string>
     <string name="start_screen2_desc">Type in your idea specifying complete details to help our algorithms find subject experts for your idea who will review your idea.</string>
@@ -50,4 +50,6 @@
 
     <string name="onboard_screen1_title">Title Here</string>
     <string name="onboard_screen1_description">Lorem ipsum dorem silet bycum intia qwe lorem.</string>
+
+    <string name="promotion_dialog_text">Your idea was escalated by an expert.\nReputation is now increased.\n\nSince your ideas have been good consistently, you\'re promoted to </string>
 </resources>
