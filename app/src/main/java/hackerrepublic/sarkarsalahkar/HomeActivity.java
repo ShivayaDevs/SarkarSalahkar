@@ -22,18 +22,31 @@ import hackerrepublic.sarkarsalahkar.fragments.MainFragment;
 import hackerrepublic.sarkarsalahkar.fragments.MyIdeasFragment;
 import hackerrepublic.sarkarsalahkar.fragments.ProfileFragment;
 
+/**
+ * Provides the userInterface for the home screen. The home screen is used to display the current
+ * top posts from the topics that we follow, Profile and MyIdeas View. Note that these all are
+ * individual fragments which are used.
+ *
+ * @author vermayash8
+ */
 public class HomeActivity extends AppCompatActivity {
 
+    /**
+     * Uses a tab layout, so viewpager and tabLayout work together.
+     */
     private ViewPager viewPager;
     private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Set the view items from XML.
         setContentView(R.layout.activity_home);
+
+        // Set the action bar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //TODO: Check.
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -51,11 +64,18 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        if(!isNetworkAvailable(this)){
-            Toast.makeText(this, "Please connect to internet and re-open the app.", Toast.LENGTH_LONG).show();
+        // If internet is not available.
+        if (!isNetworkAvailable(this)) {
+            Toast.makeText(this, "Please connect to internet and re-open the app.", Toast
+                    .LENGTH_LONG).show();
         }
     }
 
+    /**
+     * Adds the fragments to the viewPagerAdapter and sets the adapter to view pager.
+     *
+     * @param viewPager to which items need to be set.
+     */
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new MainFragment(), "Feed");
@@ -93,9 +113,17 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Gets status of network.
+     *
+     * @param context context
+     * @return boolean
+     */
     public boolean isNetworkAvailable(Context context) {
-        final ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
-        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager
+                .getActiveNetworkInfo().isConnected();
     }
 
 }

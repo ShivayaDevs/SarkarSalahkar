@@ -1,38 +1,44 @@
 package hackerrepublic.sarkarsalahkar;
 
+import android.*;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Parcelable;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Set;
 
 import hackerrepublic.sarkarsalahkar.models.Post;
 
+/**
+ * Activity for a new post to be added. Provides view for writing idea and selecting photo.
+ *
+ * @author vermayash8
+ */
 public class NewPostActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText titleInput;
     private EditText ideaInput;
     private String imageUrl;
     private ImageButton imageButton;
+
+    private static final int PERMISSION_REQUEST_CODE = 232;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,20 +60,20 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View view) {
         if (view.getId() == R.id.imageButton_image) {
             // Allow the user to choose an image from gallery.
-            // TODO: Ask for permission to access Storage in 23+ devices.
+            // TODO(TEST): Ask for permission to access Storage in 23+ devices.
+            getPermission();
             Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore
                     .Images.Media.EXTERNAL_CONTENT_URI);
             galleryIntent.setType("image/*");
             startActivityForResult(galleryIntent, 101);
         } else if (view.getId() == R.id.buttonSave) {
-//            if (TextUtils.isEmpty(ideaInput.getText()) || TextUtils.isEmpty(titleInput.getText())
-//                    || imageUrl == null) {
-//                Toast.makeText(this, "Please fill all fields first!", Toast.LENGTH_LONG).show();
-//                return;
-//            }
-//            String key = savePost();
-            String key = "p";//savePost();
-            ArrayList<String> tags = new TextAnalyzer().getTags(ideaInput.getText().toString() +
+            if (TextUtils.isEmpty(ideaInput.getText()) || TextUtils.isEmpty(titleInput.getText())
+                    || imageUrl == null) {
+                Toast.makeText(this, "Please fill all fields first!", Toast.LENGTH_LONG).show();
+                return;
+            }
+            String key = savePost();
+            ArrayList<String> tags = new TextAnalyzer(this).getTags(ideaInput.getText().toString() +
                     titleInput.getText().toString());
             Intent expertsSelectionIntent = new Intent(this, AuthoritySelectionActivity.class);
             expertsSelectionIntent.putExtra("POST_KEY", key);
@@ -80,8 +86,8 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
      * Saves the idea post to the backend.
      */
     private String savePost() {
-        Post post = new Post.Builder().setAuthor("Abhay")
-                .setCreationTimestamp(System.currentTimeMillis())
+        Post post = new Post.Builder().setAuthor(getString(R.string.current_default_user))
+                .setCreationTimestamp("1min ago")
                 .setDescription(ideaInput.getText().toString())
                 .setTitle(titleInput.getText().toString())
                 .setImageUrl(imageUrl).build();
@@ -92,6 +98,9 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
         return key;
     }
 
+    /**
+     * Handles the result of image selection.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 101 && resultCode == RESULT_OK && data.getData() != null) {
@@ -110,5 +119,14 @@ public class NewPostActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    void getPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission
+                            .READ_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_CODE);
+        }
     }
 }

@@ -9,13 +9,20 @@ import android.view.ViewGroup;
 
 import hackerrepublic.sarkarsalahkar.R;
 
-
+/**
+ * Inflates the user's profile.
+ *
+ * @author vermayash8
+ */
 public class ProfileFragment extends Fragment {
 
     public ProfileFragment() {
         // Required.
     }
 
+    /**
+     * Called when first created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle
             savedInstanceState) {

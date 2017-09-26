@@ -6,13 +6,19 @@ import android.os.Bundle;
 import android.view.Window;
 
 /**
- * Created by yash on 20/9/17.
+ * Creates the promoted dialog box that is shown to the user
+ * when his level is promoted.
+ *
+ * @author shilpi75
  */
-
 public class PromotedDIalog extends Dialog {
 
     Context context;
 
+    /**
+     * Constructor.
+     * @param context
+     */
     public PromotedDIalog(Context context) {
         super(context);
         this.context = context;

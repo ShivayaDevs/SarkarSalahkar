@@ -1,12 +1,19 @@
 package hackerrepublic.sarkarsalahkar;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.Scanner;
 
 /**
  * Analyzes the idea text to find the domain to which the idea belongs to. The search is done on
@@ -17,30 +24,61 @@ import java.util.Set;
  */
 public class TextAnalyzer {
 
-    private Map<String, List<String>> map;
-
     /**
      * These keywords will be used to test the tags present in a question which will help the
      * system decide intelligently to which domain experts the idea should be forwarded to.
      */
-    private List<String> financeKeywords = Arrays.asList("finance", "money", "cash", "interest",
-            "loan", "blockchain", "cryptocurrency", "currency", "credit", "debit card",
-            "banking", "bank");
-    private List<String> agricultureKeywords = Arrays.asList("kisan", "farmer", "crops",
-            "sugarcane", "plough", "drought", "soil", "fertilizer");
+    private Map<String, List<String>> keywordsMap;
 
-    private List<String> roadKeywords = Arrays.asList("traffic", "holes", "pit");
-    private List<String> industryKeywords = Arrays.asList("industry", "pollution", "factory",
-            "factories");
+    private static final String TAG = TextAnalyzer.class.getSimpleName();
 
-    private List<String> environmentKeywords = Arrays.asList("pollution", "health");
 
-    public TextAnalyzer() {
-        map = new HashMap<>();
-        map.put("Finance", financeKeywords);
-        map.put("Agriculture", agricultureKeywords);
-        map.put("Road", roadKeywords);
-        map.put("Industry", industryKeywords);
+    public TextAnalyzer(Context context) {
+        setup(context);
+    }
+
+    /**
+     * Sets up the text analyzer to be ready.
+     *
+     * @param context
+     */
+    private void setup(Context context) {
+        String jsonString = null;
+        try (Scanner sc = new Scanner(context.getResources().openRawResource(R.raw
+                .analyzer_dataset))) {
+            StringBuilder sb = new StringBuilder();
+            while (sc.hasNext()) {
+                sb.append(sc.nextLine());
+                sb.append('\n');
+            }
+            jsonString = sb.toString();
+            initializeKeywordsMap(jsonString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Parses the read json and makes it usable.
+     *
+     * @param json json string from which data will be retrieved.
+     */
+    private void initializeKeywordsMap(String json) throws Exception {
+        Log.d("TAG", "onCreate: " + json);
+        JSONArray jsonArray = new JSONArray(json);
+        keywordsMap = new HashMap<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            JSONArray arrayKeywords = jsonObject.getJSONArray("tags");
+            String tagName = jsonObject.getString("tagName");
+            ArrayList<String> keywords = new ArrayList<>();
+            for (int j = 0; j < arrayKeywords.length(); ++j) {
+                keywords.add(arrayKeywords.getString(i));
+            }
+            keywordsMap.put(tagName, keywords);
+        }
+        Log.d(TAG, " " + keywordsMap);
     }
 
     /**
@@ -52,7 +90,7 @@ public class TextAnalyzer {
     public ArrayList<String> getTags(String text) {
         text = text.toLowerCase();
         ArrayList<String> tags = new ArrayList<>();
-        for (Map.Entry<String, List<String>> e : map.entrySet()) {
+        for (Map.Entry<String, List<String>> e : keywordsMap.entrySet()) {
             String tag = e.getKey();
             for (String keyword : e.getValue()) {
                 if (text.contains(keyword) && !tags.contains(tag)) {

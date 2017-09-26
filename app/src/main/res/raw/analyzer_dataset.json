@@ -1,0 +1,91 @@
+[
+  {
+    "tagName": "Roads",
+    "tags": [
+      "traffic",
+      "holes",
+      "pit"
+    ]
+  },
+  {
+    "tagName": "Infrastructure",
+    "tags": [
+      "traffic",
+      "holes",
+      "pit"
+    ]
+  },
+  {
+    "tagName": "Traffic",
+    "tags": [
+    ]
+  },
+  {
+    "tagName": "Banking",
+    "tags": [
+      "finance",
+      "money",
+      "cash",
+      "interest",
+      "loan",
+      "blockchain",
+      "cryptocurrency",
+      "currency",
+      "credit",
+      "debit card",
+      "banking",
+      "bank"
+    ]
+  },
+  {
+    "tagName": "Finance",
+    "tags": [
+      "finance",
+      "money",
+      "cash",
+      "interest",
+      "loan",
+      "blockchain",
+      "cryptocurrency",
+      "currency",
+      "credit",
+      "debit card",
+      "banking",
+      "bank"
+    ]
+  },
+  {
+    "tagName": "Politics",
+    "tags": [
+    ]
+  },
+  {
+    "tagName": "Agriculture",
+    "tags": [
+      "kisan",
+      "farmer",
+      "crops",
+      "sugarcane",
+      "plough",
+      "drought",
+      "soil",
+      "fertilizer"
+    ]
+  },
+  {
+    "tagName": "Environment",
+    "tags": [
+      "pollution",
+      "health"
+    ]
+  },
+  {
+    "tagName": "Industry",
+    "tags": [
+      "industry",
+      "pollution",
+      "factory",
+      "factories"
+    ]
+  }
+]

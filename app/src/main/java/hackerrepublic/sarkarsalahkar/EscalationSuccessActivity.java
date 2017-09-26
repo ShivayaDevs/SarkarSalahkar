@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * Escalates the idea and throws exveptions if idea has failed to escalate due to technival
+ * Escalates the idea and throws exveptions if idea has failed to escalate due to technical
  * problems.
  */
 public class EscalationSuccessActivity extends AppCompatActivity {
@@ -25,6 +25,7 @@ public class EscalationSuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_escalation_success);
 
+        // to allow the processing to be done in background.
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -43,37 +44,39 @@ public class EscalationSuccessActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("temp");
-
-        reference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists()) {
-                    showAlertDialog();
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        // This is used for debugging purpose, i.e. to show the promoted dialog while making demo
+        // video. Won't be used in production.
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference reference = database.getReference("temp");
+//
+//        reference.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                if (dataSnapshot.exists()) {
+//                    showAlertDialog();
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     private void showAlertDialog() {

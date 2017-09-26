@@ -1,6 +1,8 @@
 package hackerrepublic.sarkarsalahkar.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,14 +27,21 @@ import hackerrepublic.sarkarsalahkar.R;
 import hackerrepublic.sarkarsalahkar.models.Post;
 
 /**
- * Created by yash on 18/9/17.
+ * Handles the home screen's my ideas part.
+ *
+ * @author vagisha-nidhi
  */
-
 public class MyIdeasFragment extends Fragment {
 
+    /**
+     * Members for setting to recycler view.
+     */
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter mMyRecyclerAdapter;
 
+    /**
+     * Progress bar that will be used to show that the items have not yet loaded.
+     */
     ProgressBar progressBar;
 
     /**
@@ -41,6 +50,14 @@ public class MyIdeasFragment extends Fragment {
     public MyIdeasFragment() {
     }
 
+    /**
+     * Called when view is created.
+     *
+     * @param inflater responsible for inflating view.
+     * @param container inside which view will be inflated.
+     * @param savedInstanceState previous instance.
+     * @return the inflated view.
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle
@@ -63,9 +80,9 @@ public class MyIdeasFragment extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
                     Post post = dataSnapshot.getValue(Post.class);
-                    if (post.author.equals("Abhay")) {
+                    if (post.author.equals(getString(R.string.current_default_user))) {
                         mMyRecyclerAdapter.addItem(post);
-                        if(progressBar.getVisibility() == View.VISIBLE) {
+                        if (progressBar.getVisibility() == View.VISIBLE) {
                             progressBar.setVisibility(View.GONE);
                         }
                     }
@@ -92,6 +109,9 @@ public class MyIdeasFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Adapter class for posts.
+     */
     private class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
         private ArrayList<Post> posts;
 
@@ -126,6 +146,9 @@ public class MyIdeasFragment extends Fragment {
             notifyDataSetChanged();
         }
 
+        /**
+         * Posts view holder class.
+         */
         class MyViewHolder extends RecyclerView.ViewHolder {
             private TextView authorView;
             private TextView timeView;

@@ -1,6 +1,7 @@
 package hackerrepublic.sarkarsalahkar;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,10 +13,19 @@ import android.widget.AutoCompleteTextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Provides the TargetAuthority selection user interface.
+ *
+ * @author vermayash8
+ */
 public class AuthoritySelectionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = AuthoritySelectionActivity.class.getSimpleName();
 
+    /**
+     * Using an autocomplete textView over here for suggestions.
+     * It is compulsory to select a value from the suggestions only.
+     */
     private AutoCompleteTextView authorityEditText;
 
     @Override
@@ -29,6 +39,9 @@ public class AuthoritySelectionActivity extends AppCompatActivity implements Vie
         setupEditText();
     }
 
+    /**
+     * Adds the adapter to the autocomplete textView.
+     */
     void setupEditText() {
         String[] arrayAuthorities = getTestAuthorities();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -36,8 +49,9 @@ public class AuthoritySelectionActivity extends AppCompatActivity implements Vie
         authorityEditText.setAdapter(adapter);
     }
 
+
     private String[] getTestAuthorities() {
-        //TODO: Add a few more tags.
+        //TODO(1): In production add a more target authorities.
         return new String[]{
                 "New Delhi Municipal Corporation", "NDMC", "Bombay Municipal Corporation", "MCD",
                 "MCF", "Pollution Control Board", "Pollution Institute", "Environment ResearchLab",
@@ -51,12 +65,10 @@ public class AuthoritySelectionActivity extends AppCompatActivity implements Vie
             if (!validateData())
                 return;
             Intent intent = this.getIntent();
-            String postId = intent.getStringExtra("POST_KEY");
-            ArrayList<String> tags = intent.getStringArrayListExtra("POST_TAGS");
-
             Intent expertSelectionIntent = new Intent(this, ExpertsSelectionActivity.class);
-            expertSelectionIntent.putExtra("POST_KEY", postId);
-            expertSelectionIntent.putExtra("POST_TAGS", tags);
+            expertSelectionIntent.putExtra("POST_KEY", intent.getStringExtra("POST_KEY"));
+            expertSelectionIntent.putExtra("POST_TAGS", intent.getStringArrayListExtra
+                    ("POST_TAGS"));
             startActivity(expertSelectionIntent);
         }
     }

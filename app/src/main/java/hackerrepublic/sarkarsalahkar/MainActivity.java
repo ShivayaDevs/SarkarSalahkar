@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +21,47 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+/**
+ * Handles the user on-boarding process. The user is given a brief overview of the app using this
+ * activity. This is the first thing to run when the app is opened.
+ *
+ * @author vermayash8
+ */
 public class MainActivity extends AppCompatActivity {
 
-    ViewPager viewPager;
-    LinearLayout dotsLayout;
-    Button btnSkip, btnNext;
-
-    private MyViewPagerAdapter myViewPagerAdapter;
+    /**
+     * Views required for on-boarding fragments.
+     */
+    private ViewPager viewPager;
+    private LinearLayout dotsLayout;
+    private Button btnSkip, btnNext;
     private TextView[] dots;
+    private MyViewPagerAdapter myViewPagerAdapter;
 
+    /**
+     * Stores the image resource id that is used to display on-boarding items.
+     */
     int[] imageResources;
 
+    /**
+     * Called when activity is loaded.
+     *
+     * @param savedInstanceState if any instance was previously saved.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
 
-
+        // Contains images that will be shown on different onoarding screens.
         imageResources = new int[]{
                 R.drawable.ic_brainstorming_b,
                 R.drawable.ic_contract,
@@ -57,21 +86,17 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.ic_escalate,
                 R.drawable.ic_promotion,
                 R.drawable.ic_loss,
-//                R.drawable.runstreak_badge_365_on,
                 R.drawable.ic_discover_singles,
-//                R.drawable.ic_master,
-//                R.drawable.ic_package,
         };
         // adding bottom dots
         addBottomDots(0);
-
-//TODO:        // making notification bar transparent
         changeStatusBarColor();
 
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
+        // Listen to skip events.
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +120,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Adds the bottom dots to the current page.
+     *
+     * @param currentPage page number, zero based.
+     */
     private void addBottomDots(int currentPage) {
         dots = new TextView[imageResources.length];
 
@@ -109,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
             dots[i].setTextColor(colorInactiveDot);
             dotsLayout.addView(dots[i]);
         }
-
         if (dots.length > 0)
             dots[currentPage].setTextColor(colorActiveDot);
     }
@@ -118,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
         return viewPager.getCurrentItem() + i;
     }
 
+    /**
+     * Launches the home screen.
+     */
     private void launchHomeScreen() {
         startActivity(new Intent(MainActivity.this, HomeActivity.class));
         finish();
@@ -145,12 +177,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
-
+            // Do nothing.
         }
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
-
+            // Do nothing.
         }
     };
 
@@ -177,6 +209,7 @@ public class MainActivity extends AppCompatActivity {
         public MyViewPagerAdapter() {
             titles = getResources().getStringArray(R.array.start_screen_titles);
             descriptions = getResources().getStringArray(R.array.start_screen_descriptions);
+            // For error checking.
             if (titles.length != descriptions.length || titles.length != imageResources.length) {
                 throw new RuntimeException("Onboarding resources' length doesn't match.");
             }

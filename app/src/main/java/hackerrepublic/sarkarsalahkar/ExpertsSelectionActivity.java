@@ -53,7 +53,13 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter myRecyclerAdapter;
 
+    /**
+     * Stores the tags that have been analyzed and found relevant. The tags will now be used to
+     * query for the experts.
+     */
     private ArrayList<String> tags;
+
+    private ArrayList<User> selectedExperts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +72,17 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
         tags = intent.getStringArrayListExtra("POST_TAGS");
 
         // This is here for testing purposes.
+        // While testing we are sending no tags so, the results will be only for finance tags.
         if (tags == null) {
+            Log.d(TAG, "No tags specified, set to finance...Make sure you're testing.");
             tags = new ArrayList<>();
             tags.add("Finance");
         }
 
-
+        // Setting the recycler view.
         myRecyclerAdapter = new MyRecyclerAdapter();
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewExpert);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration
-//                .VERTICAL));
         mRecyclerView.setAdapter(myRecyclerAdapter);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -86,6 +92,8 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.exists()) {
                     User user = dataSnapshot.getValue(User.class);
+                    // For the first user, it's our responsibility to make the progress bar
+                    // invisible.
                     if (findViewById(R.id.progressLoader).getVisibility() == View.VISIBLE) {
                         findViewById(R.id.progressLoader).setVisibility(View.GONE);
                         findViewById(R.id.mainLayout).setVisibility(View.VISIBLE);
@@ -96,30 +104,32 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                // Not needed.
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                // Not needed.
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+                // Not needed.
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                // Not needed.
             }
         });
 
         findViewById(R.id.button_escalate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ExpertsSelectionActivity.this, EscalationSuccessActivity
-                        .class));
+                final Intent escalationIntent = new Intent(ExpertsSelectionActivity.this,
+                        EscalationSuccessActivity.class);
+                escalationIntent.putExtra("SELECTED_EXPERTS", selectedExperts);
+                startActivity(escalationIntent);
             }
         });
 
@@ -141,8 +151,14 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
         return score;
     }
 
+    /**
+     * Adapter that is set to the recycler view for displaying experts.
+     */
     private class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
 
+        /**
+         * Here we need to maintain a scoreMap as well for the ordering of experts.
+         */
         ArrayList<User> list = new ArrayList<>();
         Map<User, Integer> scoreMap = new HashMap<>();
 
@@ -166,6 +182,7 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
             list.add(expert);
             Log.d(TAG, "addItem " + expert.name + " score:" + score);
             scoreMap.put(expert, score);
+            //  sort in descending order of score.
             Collections.sort(list, new Comparator<User>() {
                 @Override
                 public int compare(User u1, User u2) {
@@ -178,7 +195,12 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
 
-
+        /**
+         * Viewholder for the recycler views.
+         * Note that currently we are not using the image view.
+         * Since that's not a core function of the app, it has
+         * not been used.
+         */
         class MyViewHolder extends RecyclerView.ViewHolder {
 
             TextView textViewName, textViewBio, textViewTags;
@@ -204,8 +226,8 @@ public class ExpertsSelectionActivity extends AppCompatActivity {
                 for (Map.Entry<String, Integer> entry : ratingMap.entrySet()) {
                     displayString += entry.getKey() + ", ";
                 }
-                if (displayString.length() >= 1) {
-                    displayString = displayString.substring(0, displayString.length() - 1);
+                if (displayString.length() >= 2) {
+                    displayString = displayString.substring(0, displayString.length() - 2);
                 }
                 textViewTags.setText(displayString);
                 if (position % 2 == 0) {

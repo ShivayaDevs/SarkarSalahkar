@@ -29,10 +29,16 @@ import hackerrepublic.sarkarsalahkar.R;
 import hackerrepublic.sarkarsalahkar.models.Post;
 
 /**
- * The first fragment that is visible to the user.
+ * Provides the Home screen user interface and control. Sets the views on home screen by fetching
+ * data from backend. The backend this fetches the data is firebase.
+ *
+ * @author shilpi75
  */
 public class MainFragment extends Fragment {
 
+    /**
+     * Variables required for the recycler view showing posts.
+     */
     private RecyclerView mRecyclerView;
     private MyRecyclerAdapter mMyRecyclerAdapter;
 
@@ -93,6 +99,9 @@ public class MainFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Provides the adapter to set on the PostsRecyclerView.
+     */
     private class MyRecyclerAdapter extends RecyclerView.Adapter<MyRecyclerAdapter.MyViewHolder> {
         private ArrayList<Post> posts;
         private ArrayList<String> keys;
@@ -130,6 +139,9 @@ public class MainFragment extends Fragment {
             notifyDataSetChanged();
         }
 
+        /**
+         * View Holder for the recycler view.
+         */
         class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             private TextView authorView;
             private TextView timeView;
@@ -151,13 +163,18 @@ public class MainFragment extends Fragment {
                 v.setOnClickListener(this);
             }
 
+            /**
+             * Binds the data to the view.
+             *
+             * @param position position of item in list.
+             */
             void bind(int position) {
                 Post post = posts.get(position);
                 authorView.setText(post.author);
                 postTitleView.setText(post.title);
                 postPreview.setText(post.description);
                 numStarsView.setText(post.numStars + " stars");
-                timeView.setText("1 hr ago");
+                timeView.setText(post.creationTimestamp);
                 Glide.with(getActivity()).load(post.imageUrl).into(coverImageView);
                 key = keys.get(position);
             }

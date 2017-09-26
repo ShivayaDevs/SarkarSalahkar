@@ -25,14 +25,26 @@ import java.util.ArrayList;
 import hackerrepublic.sarkarsalahkar.models.Comment;
 import hackerrepublic.sarkarsalahkar.models.Post;
 
+/**
+ * Displays the idea's details. Includes comments and everything.
+ * Fetches data from firebase.
+ *
+ * @author vermayash8
+ */
 public class IdeaDetailActivity extends AppCompatActivity {
 
     private static final String TAG = IdeaDetailActivity.class.getSimpleName();
 
+    /**
+     * Views that will be used.
+     */
     private TextView titleView, authorView, starsView, descriptionView;
     ImageView coverImageView;
     RecyclerView recyclerView;
 
+    /**
+     * To fetch and display comments in recycler view.
+     */
     CommentsAdapter adapter;
 
     @Override
@@ -40,11 +52,14 @@ public class IdeaDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_idea_detail);
 
+        // Fetch the intent that will give us the postId of the post that needs to be shown here.
         Intent intent = this.getIntent();
         String postId = intent.getStringExtra("POST_KEY");
-
         Log.d(TAG, "Got key as:" + postId);
 
+        // To avoid the task of adding dummy data again and again, comments have been added to a
+        // single post and that has been referred here.
+        // This is because this is not a core function of this app.
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference postRef = firebaseDatabase.getReference("posts").child(postId);
         DatabaseReference commentsRef = firebaseDatabase.getReference("comments").child
@@ -84,6 +99,11 @@ public class IdeaDetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * Adds the comments to the recycler view.
+     *
+     * @param commentsRef firebase DatabaseReference to the comments.
+     */
     private void addComments(DatabaseReference commentsRef) {
         commentsRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -116,6 +136,11 @@ public class IdeaDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets the post to the user interface.
+     *
+     * @param post post object.
+     */
     private void setPostToUI(Post post) {
         titleView.setText(post.title);
         authorView.setText(post.author);

@@ -50,6 +50,6 @@
 
     <string name="onboard_screen1_title">Title Here</string>
     <string name="onboard_screen1_description">Lorem ipsum dorem silet bycum intia qwe lorem.</string>
-
+    <string name="current_default_user">Shilpi</string>
     <string name="promotion_dialog_text">Your idea was escalated by an expert.\nReputation is now increased.\n\nSince your ideas have been good consistently, you\'re promoted to </string>
 </resources>

@@ -12,13 +12,12 @@ public class Post {
     public String title;
     public String description;
     public String imageUrl;
-    public long creationTimestamp;
+    public String creationTimestamp;
     public int numStars = 0;
     public int escalationLevel = 0;
 
     public Post() {
         // Required for call to DataSnapshot.getValue(Post.class);
-        creationTimestamp = System.currentTimeMillis();
     }
 
     public static class Builder {
@@ -33,7 +32,7 @@ public class Post {
             return this;
         }
 
-        public Builder setCreationTimestamp(long timestamp) {
+        public Builder setCreationTimestamp(String timestamp) {
             this.post.creationTimestamp = timestamp;
             return this;
         }
