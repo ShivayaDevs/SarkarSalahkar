@@ -66,7 +66,7 @@
         -> Spammers unable to clutter the platform and flood irrelevant posts.
 """
 from flask import Flask, request, jsonify
-from sklearn.neighbors import KNeighborsClassifier
+import expertSelection
 import userProfileManager
 import csv
 import json
@@ -129,7 +129,7 @@ def newPostAdded():
 def postUpvotedByCommonUser():
     postKey = request.json['postKey']
     upvoter = request.json['upvoter']
-    # TODO: Not implementing this, because not a core functionality.
+    # Not implementing this, because not a core functionality.
     return "Noted"
 
 # Called when the post has been escalated, for the user escalating, 
@@ -168,8 +168,33 @@ def textAnalyze():
     # We might want to move this to server later, if accuracy seems low.
     return "Not implemented, Perform on device side."
 
+# Performs the core task of getting the list of experts when we are given
+# the tags that were referred in post and whose subject experts are required.
+# The task of subject expert
+@app.route('/getExperts', methods=['POST'])
+def getExperts():
+    writing_user = request.json['writer']
+    writer_level = request.json['writer_level']
+    tags = request.json['tags']
+    # this request is delegated to the machine learning algorithm to get
+    # the experts while keeping in mind the factors mentioned above.
+    list_top_few = expertSelection.getExperts(writing_user, writer_level, tags)
+    # since this is a list, this needs to be converted to json array.
+    return json.dumps(list_top_few)
+
+# When a user's rep points become sufficient to promote him, the firebase cloud functions
+# trigger this API endpoint to promote the user to next level.
+@app.route('/promote', methods=['POST'])
+def promoteUser():
+    userID = request.json['userID']
+    current_level = request.json['current_level'] 
+    expertSelection.promoteUserToLevel(userID, current_level)
+    return "promoted"
+
 
 # Main entry point to start the app.
 if __name__ == '__main__':
     app.debug=True
     app.run(host = '0.0.0.0')
+    # 0.0.0.0 will start the server on all IPs of the current machine.
+    # else in debug mode it only starts on 127.0.0.01
