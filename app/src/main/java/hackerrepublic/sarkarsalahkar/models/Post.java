@@ -20,6 +20,9 @@ public class Post {
         // Required for call to DataSnapshot.getValue(Post.class);
     }
 
+    /**
+     * Posts will be build using builder pattern.
+     */
     public static class Builder {
         Post post;
 

@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,8 +63,11 @@ public class AuthoritySelectionActivity extends AppCompatActivity implements Vie
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.floatingActionButton_escalate) {
-            if (!validateData())
+            if (!validateData()) {
+                Toast.makeText(this, "Please start typing the target authority and select it from" +
+                        " suggestions.", Toast.LENGTH_LONG).show();
                 return;
+            }
             Intent intent = this.getIntent();
             Intent expertSelectionIntent = new Intent(this, ExpertsSelectionActivity.class);
             expertSelectionIntent.putExtra("POST_KEY", intent.getStringExtra("POST_KEY"));

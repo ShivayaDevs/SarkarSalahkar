@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
@@ -129,8 +130,8 @@ public class MainFragment extends Fragment {
         }
 
         public void addItem(String key, Post post) {
-            posts.add(post);
-            keys.add(key);
+            posts.add(0,post);
+            keys.add(0, key);
             notifyDataSetChanged();
         }
 
