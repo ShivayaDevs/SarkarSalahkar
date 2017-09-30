@@ -45,9 +45,28 @@ import json
 import firebaseHelper
 import random
 import userProfileManager
+import neuralNetHelper as neuralNets
 
 # Firebase project with which this is linked.
 firebase_project_name = 'learning-4ae32'
+
+"""
+    Represents experts with following parameters:
+    1. user_id
+    2. availability score: score assigned on the basis of availability of user.
+    3. escalation rate of the expert
+    4. score according to reputation of user with the tags specified.
+    5. impact score: score on basis of how many ideas have reached their target.
+    6. expertise score of user in the offline world.
+"""
+class Expert(object):
+    def __init__(self, user_id, availability_score, escalation_rate, reputation_score, impact_score, expertise_score):
+        self.user_id = user_id
+        self.availability_score = availability_score
+        self.escalation_rate = escalation_rate
+        self.reputation_score = reputation_score
+        self.impact_score = impact_score
+        self.expertise_score = expertise_score
 
 """
     Triggered when the app requests the server to get the experts so that all the factors mentioned
@@ -57,39 +76,46 @@ firebase_project_name = 'learning-4ae32'
     and a list of tags for which an expert has to be recommended.
 """
 def getExperts(writing_user_id, writer_level, tags, targetAuth=None):
-    
-    # NOTE: remove this comment after we are done.
-    """
-        Write this function to recommend experts here.
-        Assume that userProfileManager can return you any kind of stats about the user
-        or maybe the user's details based on his userid.
+    expert_level = writer_level + 1;
+    # Provides list of experts at expert_level = writer_level + 1.
+    experts_list = firebaseHelper.getExpertsList(expert_level);
+    # List of experts contatining Expert class objects. Each object contains user_id, availability score,
+    # escalation rate, tags reputation score, impact score and expertise score.
+    experts_list_with_parameters = []
+    # Provides the list of experts with level = writing user level + 1 with all the parameters like availability
+    # score etc. These parameters are then used to assign final scores to expers using neural network.
+    for expert in experts_list :
+        expert_user_id = expert['user_id']
+        availability_score = getExpertUsersEngagementAvailability(expert)
+        escalation_rate = getEscalationRateForUser(expert)
+        tags_reputation_score = getExpertsAvgReputationForTags(expert, tags)
+        impact_score = getImpactScore(expert)
+        expertise_score = getExpertInOfflineWorldScore(expert)
+        experts_list_with_parameters.append(new Expert(expert_user_id, availability_score, escalation_rate, tags_reputation_score, impact_score, expertise_score))
+    '''
+        NeuralNetsHelper class function to assign cummulative final scores to the experts. It uses neural 
+        networks on the experts assigning them cummulative scores of the basis of:
+        1. availability score of experts
+        2. escalation rate of experts
+        3. repuatation score with tags
+        4. impact score
+        5. expertise score
+        Values are normalized and then backpropagation is used to train the neural model. It returns the 
+        list of experts with their scores and user ids in ascending order of scores.
 
-        Hereafter, score refers to a floating number which represents the power in that field.
-        Please specify the range of score also. Like 0.0 <= escalationRate <= 1.0
-        So, we'll do simple score calculations to pass as feature to the ML algorithm.
-        Keep it simple 
+        Sample input:
+        experts_list_with_parameters = [<1, 0.5, 0.6, 7, 0.5, 0.1>, <2, 0.7, 0.4, 8, 0.9, 0.4>]
+        It is the list containing two experts with thier user_id, availability_score, escalation_rate,
+        reputation, impact_score, expertise_score.
 
-        Presently, we have to utilize machine learning to recommend experts for tags on basis
-        of these factors:
-        1. Reputation of experts.
-        2. Availability.(assume you can get a list of availabilities on prev days from 
-           userProfileManager and compute a score from it.)
-        3. Escalation rate => get number escalated as of now from userProfileManager and total number
-        4. Expert in domains => assign scores (experts are people who have demonstrated record of offline performance). 
-        5. Their impact per bad idea=> gets the value as a score that how many ideas have reached their target,
-           again a number that can be retrieved by userProfileManager, divided by the ideas that got descalated.
-
-        Approach => maybe clustering (decide yourself)
-
-        This is during the process when new experts are added i.e. users get promoted(all this happens then only I think).
-        If that's the case, then move this to the new function promoteUserToLevel(userID, level)
-
-        getting the experts is maybe a simplest procedure of predicting using the model.
-
-    """
-
-    # Returns a list of userIds of the recommended experts. (Don't return more than 8).
-    return ['uid1', 'uid2']
+        Sample Output: 
+        expert_list_with_sorted_cummulative_scores = [<2, 0.8>, <1, 0.6>]
+        It is the list with user_id and cummulative score calculated by neural network in decreasing order of 
+        scores.
+    '''
+    expert_list_with_sorted_cummulative_scores = neuralNets.assign_cummulative_sores(experts_list_with_parameters)
+    # Returns best 8 matching experts.
+    return expert_list_with_sorted_cummulative_scores[:8]
     
 # Returns the average reputations for the tags.
 # output score range: 0 <= rep <= any possible value 
@@ -120,7 +146,7 @@ def getEscalationRateForUser(expert):
 
 # Returns the impact score, denoting the quality impact made by the expert.
 # Range = 0.0 to 1.0
-def getImpactScore():
+def getImpactScore(expert):
     num_ideas_to_destination = userProfileManager.getNumIdeasReachedDestination(expert)
     total_escalated = userProfileManager.getNumEscalationsForever(expert)
     return num_ideas_to_destination/total_escalated
