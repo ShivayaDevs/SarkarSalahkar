@@ -56,7 +56,8 @@ public class AuthoritySelectionActivity extends AppCompatActivity implements Vie
         return new String[]{
                 "New Delhi Municipal Corporation", "NDMC", "Bombay Municipal Corporation", "MCD",
                 "MCF", "Pollution Control Board", "Pollution Institute", "Environment ResearchLab",
-                "Finance Department (GOI)"
+                "Finance Department (GOI)", "MCD", "Municipal Corporation", "Railways", "Reserve " +
+                "Bank","Water Department"
         };
     }
 
