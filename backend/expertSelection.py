@@ -85,15 +85,16 @@ def getExperts(writing_user_id, writer_level, tags, targetAuth=None):
     # Provides the list of experts with level = writing user level + 1 with all the parameters like availability
     # score etc. These parameters are then used to assign final scores to expers using neural network.
     for expert in experts_list :
-        expert_user_id = expert['user_id']
+        user_id = expert.user_id
         availability_score = getExpertUsersEngagementAvailability(expert)
         escalation_rate = getEscalationRateForUser(expert)
-        tags_reputation_score = getExpertsAvgReputationForTags(expert, tags)
+        reputation_score = getExpertsAvgReputationForTags(expert, tags)
         impact_score = getImpactScore(expert)
         expertise_score = getExpertInOfflineWorldScore(expert)
-        experts_list_with_parameters.append(new Expert(expert_user_id, availability_score, escalation_rate, tags_reputation_score, impact_score, expertise_score))
+        expert_param = new Expert(user_id, availability_score, escalation_rate, reputation_score, impact_score, expertise_score)
+        experts_list_with_parameters.append(expert_param)
     '''
-        NeuralNetsHelper class function to assign cummulative final scores to the experts. It uses neural 
+        NeuralNetHelper class function to assign cummulative final scores to the experts. It uses neural 
         networks on the experts assigning them cummulative scores of the basis of:
         1. availability score of experts
         2. escalation rate of experts
