@@ -1,3 +1,4 @@
+## Sarkar Salahkar
 Introducing Sarkar Salahkar, an app that lets people’s solution reach people in power who can take action on them. Sarkar Salahkar utilizes the power of <b>community and algorithms together to segregate, validate and escalate feasible, implementable and impact producing solutions to the people who can take action.</b><br>
 People with diverse backgrounds and skills unite around a common goal to collaborate with other thinkers and doers to make the world’s largest democracy the best it can be.<br>
 
